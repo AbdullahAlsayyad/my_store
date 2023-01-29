@@ -14,8 +14,6 @@ public class Act1Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a2_home);
         int orientation = getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-            ((LinearLayout) findViewById(R.id.ll)).setOrientation(LinearLayout.HORIZONTAL);
     }
 
 }
