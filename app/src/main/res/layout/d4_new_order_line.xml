@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/d4_et_product_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="d4_et_product_name" />
+
+    <EditText
+        android:id="@+id/d4_et_product_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="d4_et_product_number"/>
+
+    <EditText
+        android:id="@+id/d4_et_unit_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:hint="d4_et_unit_price"/>
+
+    <EditText
+        android:id="@+id/d4_et_units"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="d4_et_units"/>
+
+    <EditText
+        android:id="@+id/d4_et_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:hint="d4_et_note"/>
+
+    <Button
+        android:id="@+id/d4_btn_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="d4_btn_add" />
+</LinearLayout>

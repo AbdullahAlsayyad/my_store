@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.new_order.NewOrderActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/a4_tv_customer_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="a4_tv_customer_name" />
+
+            <TextView
+                android:id="@+id/a4_tv_shipment_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="a4_tv_shipment_id" />
+
+            <Button
+                android:id="@+id/a4_btn_add_order_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/icon_add"
+                app:iconGravity="textEnd"
+                android:layout_margin="5dp"/>
+
+            <Button
+                android:id="@+id/a4_btn_save_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/icon_save"
+                app:iconGravity="textEnd" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/a4_rv_order_lines"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:listitem="@layout/i4_rv_order_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/a4_tv_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="a4_tv_total" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>
