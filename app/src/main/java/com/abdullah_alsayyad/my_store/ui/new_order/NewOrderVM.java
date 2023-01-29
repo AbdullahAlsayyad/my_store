@@ -17,6 +17,7 @@ import com.abdullah_alsayyad.my_store.data.repository.OrderRepo;
 import com.abdullah_alsayyad.my_store.data.repository.ShipmentsRepo;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class NewOrderVM extends AndroidViewModel {
     private final MutableLiveData<ArrayList<OrderLine>> orderLinesMutableLiveData;
@@ -66,6 +67,19 @@ public class NewOrderVM extends AndroidViewModel {
         this.orderMutableLiveData.setValue(new Order(-1, customer.customerId, shipment.shipmentId, 0.0, 0.0, false, ""));
     }
 
+    /**
+     * For add new order line
+     * @param productName product name
+     * @param productNumber product number
+     * @param units units
+     * @param unitPrice unit price
+     * @param note note
+     * @return
+     *          if any parameter is empty return = {@link Constants#RESULT_EMPTY}<br/>
+     *          if units or unitPrice equal zero return = {@link Constants#RESULT_ZERO}<br/>
+     *          if is already exist return = {@link Constants#RESULT_IS_EXIST}<br/>
+     *          if added return = zero
+     */
     public int newOrderLine(String productName, String productNumber, String units, String unitPrice, String note) {
         if (productName.isEmpty() || productNumber.isEmpty() || units.isEmpty() || unitPrice.isEmpty())
             return Constants.RESULT_EMPTY;
@@ -80,7 +94,8 @@ public class NewOrderVM extends AndroidViewModel {
         int result = checkProductIsExist(_productName, _productNumber);
         if (result != 0) return result;
         ArrayList<OrderLine> orderLines = this.orderLinesMutableLiveData.getValue();
-        OrderLine orderLine = new OrderLine(-1, this.orderMutableLiveData.getValue().orderId, _productName, _productNumber, _unitPrice, _units, false, _note);
+        assert orderLines != null;
+        OrderLine orderLine = new OrderLine(-1, Objects.requireNonNull(this.orderMutableLiveData.getValue()).orderId, _productName, _productNumber, _unitPrice, _units, false, _note);
         orderLines.add(orderLine);
         this.orderLinesMutableLiveData.setValue(orderLines);
 
@@ -90,36 +105,64 @@ public class NewOrderVM extends AndroidViewModel {
         return 0;
     }
 
-    private void updateOrderDetails(double total, double paid, String note) {
-        Order order = this.orderMutableLiveData.getValue();
-        if (order == null) return;
-        this.orderMutableLiveData.setValue(new Order(order.orderId, order.customerId, order.shipmentId, total, paid, false, note));
-    }
-
-
+    /**
+     * When add new order line check if line is already exist
+     * @param productName product name
+     * @param productNumber product number
+     * @return if is already exist return = {@link Constants#RESULT_IS_EXIST}<br/>
+     *          else return = zero
+     */
     private int checkProductIsExist(String productName, String productNumber) {
         for (OrderLine o :
-                this.orderLinesMutableLiveData.getValue()) {
+                Objects.requireNonNull(this.orderLinesMutableLiveData.getValue())) {
             if (productName.equals(o.productName) || productNumber.equals(o.productNumber))
                 return Constants.RESULT_IS_EXIST;
         }
         return 0;
     }
 
-    private int checkOrder() {
-        if (this.orderLinesMutableLiveData.getValue().isEmpty()) return Constants.RESULT_EMPTY;
-        Shipment shipment = this.shipmentMutableLiveData.getValue();
+    /**
+     * Update order details
+     * @param total new total
+     * @param paid new paid
+     * @param note new note
+     */
+    private void updateOrderDetails(double total, double paid, String note) {
         Order order = this.orderMutableLiveData.getValue();
-        if (order.total+shipment.totalAdded > shipment.maximum) return Constants.RESULT_SHIPMENT_FULL;
-        return 0;
+        if (order == null) return;
+        this.orderMutableLiveData.setValue(new Order(order.orderId, order.customerId, order.shipmentId, total, paid, false, note));
     }
 
+    /**
+     * When done add orderLiens this methode for save it
+     * @return
+     *          if not added order line return = {@link Constants#RESULT_EMPTY}<br/>
+     *          if can't add to shipment because is more than maximum return = {@link Constants#RESULT_SHIPMENT_FULL}<br/>
+     *          if happened another error return = {@link Constants#RESULT_ERROR}<br/>
+     *          if added return = positive Integer
+     */
     public int saveOrder() {
         int result = checkOrder();
         if (result != 0) return result;
         Order order = this.orderMutableLiveData.getValue();
         ArrayList<OrderLine> orderLines = this.orderLinesMutableLiveData.getValue();
         return this.orderRepo.newOrder(order, orderLines);
+    }
+
+    /**
+     * Check Order is empty or shipment is full
+     * @return
+     *          if not added order line return = {@link Constants#RESULT_EMPTY}<br/>
+     *          if can't add to shipment because is more than maximum return = {@link Constants#RESULT_SHIPMENT_FULL}<br/>
+     *          else return = 0
+     */
+    private int checkOrder() {
+        if (Objects.requireNonNull(this.orderLinesMutableLiveData.getValue()).isEmpty()) return Constants.RESULT_EMPTY;
+        Shipment shipment = this.shipmentMutableLiveData.getValue();
+        Order order = this.orderMutableLiveData.getValue();
+        assert order != null && shipment != null;
+        if (order.total+shipment.totalAdded > shipment.maximum) return Constants.RESULT_SHIPMENT_FULL;
+        return 0;
     }
 
 }
