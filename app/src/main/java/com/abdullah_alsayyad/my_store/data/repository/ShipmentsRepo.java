@@ -34,7 +34,7 @@ public class ShipmentsRepo {
     public ArrayList<String> activeShipments() {
         ArrayList<String> activeShipments = new ArrayList<>();
         String sql = "SELECT "+ DatabaseStructure.ShipmentTable.SHIPMENT_ID + " FROM " + DatabaseStructure.ShipmentTable.TABLE_NAME
-                + " WHERE " + DatabaseStructure.ShipmentTable.STATUS + " = 0";
+                + " WHERE " + DatabaseStructure.ShipmentTable.STATUS + " <= 0 AND " + DatabaseStructure.ShipmentTable.TOTAL_ADDED + " <" + DatabaseStructure.ShipmentTable.MAXIMUM;
         Cursor data = Database.getDataBySQL(this.db, sql);
         data.moveToFirst();
         while (!data.isAfterLast()) {

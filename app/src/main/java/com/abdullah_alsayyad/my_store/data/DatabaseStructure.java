@@ -77,7 +77,7 @@ public final class DatabaseStructure {
             ContentValues values = new ContentValues();
             values.put(MAXIMUM, shipment.maximum);
             values.put(MINIMUM, shipment.minimum);
-            values.put(STATUS, shipment.shipmentId);
+            values.put(STATUS, shipment.status);
             values.put(NOTE, shipment.note);
             values.put(TOTAL_ADDED, shipment.totalAdded);
             return values;
@@ -90,10 +90,10 @@ public final class DatabaseStructure {
             int shipmentId = cursor.getInt(0);
             double maximum = cursor.getDouble(1);
             double minimum = cursor.getDouble(2);
-            boolean status = cursor.getInt(3) != 0;
+            boolean status = cursor.getInt(3) > 0;
             String note = cursor.getString(4);
             double totalAdded = cursor.getDouble(5);
-            return new Shipment(shipmentId, maximum, maximum, status, note, totalAdded);
+            return new Shipment(shipmentId, maximum, minimum, status, note, totalAdded);
         }
     }
 

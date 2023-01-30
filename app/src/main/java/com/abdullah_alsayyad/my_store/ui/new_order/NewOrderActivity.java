@@ -80,8 +80,4 @@ public class NewOrderActivity extends AppCompatActivity implements View.OnClickL
         this.binding.a4RvOrderLines.setLayoutManager(new LinearLayoutManager(this));
         this.binding.a4RvOrderLines.setAdapter(adapter);
     }
-
-//    private void getData() {
-
-//    }
 }

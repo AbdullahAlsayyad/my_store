@@ -1,5 +1,6 @@
 package com.abdullah_alsayyad.my_store.ui.new_order;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 public class NewOrderLinesRV extends RecyclerView.Adapter<NewOrderLinesRV.ViewHolder> {
     private ArrayList<OrderLine> orderLines = new ArrayList<>();
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setOrderLines(ArrayList<OrderLine> orderLines) {
         this.orderLines = orderLines;
         notifyDataSetChanged();

@@ -2,12 +2,12 @@ package com.abdullah_alsayyad.my_store.data.repository;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.abdullah_alsayyad.my_store.data.Database;
 import com.abdullah_alsayyad.my_store.data.DatabaseStructure;
 import com.abdullah_alsayyad.my_store.data.model.Order;
 import com.abdullah_alsayyad.my_store.data.model.OrderLine;
+import com.abdullah_alsayyad.my_store.data.model.Shipment;
 import com.abdullah_alsayyad.my_store.ui.MainActivity;
 import com.abdullah_alsayyad.my_store.ui.order.OrderVM;
 
@@ -46,12 +46,17 @@ public class OrderRepo {
                 + DatabaseStructure.OrderTable.TABLE_NAME +'.'+DatabaseStructure.OrderTable.CUSTOMER_ID;
     }
 
-    public int newOrder(Order order, ArrayList<OrderLine> orderLines) {
+    public int newOrder(Order order, ArrayList<OrderLine> orderLines, Shipment shipment) {
         int orderId = (int) this.db.newRow(order);
         if (orderId == -1) return orderId;
 
         int result = newOrderLiens(orderId, orderLines);
-        if (result < 0) deleteOrder(orderId);
+        if (result < 1) {
+            deleteOrder(orderId);
+            return result;
+        }
+        result = Database.updateRow(this.db, shipment);
+        if (result < 1) deleteOrder(orderId);
         return result;
     }
 
@@ -68,6 +73,6 @@ public class OrderRepo {
     private void deleteOrder(int orderId) {
         this.db.deleteRow(orderId);
         Database.deleteRow(this.db, DatabaseStructure.OrderLineTable.TABLE_NAME,
-                " WHERE "+ DatabaseStructure.OrderLineTable.ORDER_ID+" = "+ orderId);
+                " "+ DatabaseStructure.OrderLineTable.ORDER_ID+" = "+ orderId+" ");
     }
 }

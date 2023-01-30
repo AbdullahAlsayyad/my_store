@@ -52,6 +52,14 @@ public class Database extends SQLiteOpenHelper {
         return this.getWritableDatabase().insert(model.getTableName(), null, model.getValues());
     }
 
+    public int updateRow(Model model) {
+        return this.getWritableDatabase().update(model.getTableName(), model.getValues(), " id = ?", new String[]{String.valueOf(model.getId())});
+    }
+
+    public static int updateRow(SQLiteOpenHelper db, Model model) {
+        return db.getWritableDatabase().update(model.getTableName(), model.getValues(), " id = ?", new String[]{String.valueOf(model.getId())});
+    }
+
     public int deleteRow(int id) {
         return this.getWritableDatabase().delete(this.TABLE_NAME, "id = ?", new String[] {String.valueOf(id)});
     }

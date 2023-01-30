@@ -129,7 +129,7 @@ public class NewOrderVM extends AndroidViewModel {
      */
     private void updateOrderDetails(double total, double paid, String note) {
         Order order = this.orderMutableLiveData.getValue();
-        if (order == null) return;
+        assert order != null;
         this.orderMutableLiveData.setValue(new Order(order.orderId, order.customerId, order.shipmentId, total, paid, false, note));
     }
 
@@ -146,7 +146,10 @@ public class NewOrderVM extends AndroidViewModel {
         if (result != 0) return result;
         Order order = this.orderMutableLiveData.getValue();
         ArrayList<OrderLine> orderLines = this.orderLinesMutableLiveData.getValue();
-        return this.orderRepo.newOrder(order, orderLines);
+        Shipment oldShipment = this.shipmentMutableLiveData.getValue();
+        assert order != null && orderLines != null && oldShipment != null;
+        Shipment shipment = new Shipment(oldShipment.shipmentId, oldShipment.maximum, oldShipment.minimum, oldShipment.status, oldShipment.note, oldShipment.totalAdded+order.total);
+        return this.orderRepo.newOrder(order, orderLines, shipment);
     }
 
     /**

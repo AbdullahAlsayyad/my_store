@@ -35,8 +35,10 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_CANCELED) Toast.makeText(this, "CANCELED", Toast.LENGTH_SHORT).show();
-        else this.orderVM.refresh();
+        if (requestCode == REQUEST_CODE_FROM_NEW_ORDER_ACTIVITY) {
+            if (resultCode == RESULT_CANCELED) Toast.makeText(this, "CANCELED", Toast.LENGTH_SHORT).show();
+            else this.orderVM.refresh();
+        }
     }
 
     @Override
