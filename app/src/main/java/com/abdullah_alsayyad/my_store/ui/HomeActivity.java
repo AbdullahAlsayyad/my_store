@@ -20,6 +20,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.a2_btn_customers).setOnClickListener(this);
         findViewById(R.id.a2_btn_shipments).setOnClickListener(this);
         findViewById(R.id.a2_btn_orders).setOnClickListener(this);
+//        kiikolkokiojio
     }
 
     @Override
